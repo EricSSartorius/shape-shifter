@@ -19,6 +19,8 @@ This is a simple app used to add basic shapes to a phone-sized layout.
 - Rotate a rectangle
 - Show/Hide Menus
 
+__more features such as updated animations, pinch, and drag to create new element coming soon!__
+
 ### Developed with:
 - [Vite](https://vitejs.dev/)
 - [PNPM](https://pnpm.io/)
@@ -39,4 +41,4 @@ pnpm run dev
 ```
 
 
-__Note: .env file is not published but values init are required to run locally.__
+__Note: .env file is not published but values in it are required to run locally.__
