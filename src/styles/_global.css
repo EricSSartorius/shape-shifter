@@ -1,0 +1,40 @@
+body {
+	height: 100%;
+	margin: 0;
+	background: var(--bg);
+  overflow: auto;
+  margin: 0;
+  color: var(--text);
+  line-height: 1.75;
+}
+
+html {
+	height: 100%;
+	box-sizing: border-box;
+	font-size: var(--font-size-large);
+  font-family: var(--font-family);
+  font-weight: var(--normal-weight);
+
+  /* LAYOUT */
+  --panel-width: 300px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family);
+  font-weight: var(--normal-weight);
+  line-height: 1.15;
+  margin: 0;
+  padding: 0;
+}
+
+
+hr {
+  border: 1px solid var(--light-grey);
+}
+
+#root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+

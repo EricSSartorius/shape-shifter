@@ -1,0 +1,20 @@
+/* ICON STYLES */
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
+}
+
+/* REACT_COLOR STYLES */
+.chrome-picker {
+  box-shadow: none !important;
+  background-color: transparent !important;
+  border-bottom: 1px solid var(--light-grey);
+}
+
+/* MOVEABLE STYLES */
+.rCS1rb3a7w {
+  z-index: 10 !important;
+}

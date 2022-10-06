@@ -1,0 +1,71 @@
+:root {
+  /* COLORS */
+  --pastel: #82A8FF;
+  --pastel-hover: hsla(222, 100%, 75%, 0.2); /* #82A8FF */
+
+  --purple: #555ABF; 
+	--purple-true: #4e34a1;
+	--purple-deep:  #32325D;
+  --violet: #A943C9;
+  --white: #FCFCFC;
+  --dark-grey: #999999;
+  --grey: #BBBBBB;
+  --light-grey: #E5E5E5;
+  --red: #e54b4b;
+
+  --gradient:  linear-gradient(180deg, #9c1aff 0%, rgb(119, 0, 255) 100%);
+  --gradient-purple: linear-gradient(269.29deg, var(--purple-deep) 0%, var(--purple-true) 99.59%);
+	--gradient-funky: linear-gradient(265.13deg, var(--violet) 22.71%, var(--pastel) 76.07%);
+	--gradient-funky-2: linear-gradient(95.04deg, var(--purple) 33.05%, var(--purple-true) 80.31%);
+  --gradient-button: linear-gradient(to right, var(--purple) 0%, #7c1e9a 51%, #5c1373 100%);
+
+	/* Sizing Scales */
+	--base-size: 1em;
+	--gap-scale: 1.5;
+	--font-scale: 1.25;
+
+	/* Gap Sizing */
+	--gap: var(--base-size);
+	--gap-large: calc(var(--gap) * var(--gap-scale));
+	--gap-small: calc(var(--base-size) / var(--gap-scale));
+
+	/* Font */
+	--font-family: 'Fira Sans' , sans-serif;
+	--normal-weight: 400;
+  --semi-bold-weight: 600;
+	--bold-weight: 700;
+
+	/* Font Sizing */
+	--h6: var(--base-size);
+	--h5: calc(var(--h6) * var(--font-scale));
+	--h4: calc(var(--h5) * var(--font-scale));
+	--h3: calc(var(--h4) * var(--font-scale));
+	--h2: calc(var(--h3) * var(--font-scale));
+	--h1: calc(var(--h2) * var(--font-scale));
+
+	--font-size-large: calc(var(--base-size) * var(--font-scale));	--font-size-small: calc(var(--base-size) / var(--font-scale));
+	--font-size-smallest: calc(var(--font-size-small) / var(--font-scale));
+
+      /* SHADOW */
+  --shadow: 0 50px 100px -20px rgba(50, 50, 93, 0.25), 0 30px 60px -30px rgba(0, 0, 0, 0.3);
+  --shadow-2: 0 13px 27px -5px rgba(50, 50, 93, 0.25), 0 8px 16px -8px rgba(0, 0, 0, 0.3);
+	--shadow-0: inset 0 30px 60px -12px rgba(50, 50, 93, 0.25),
+		inset 0 8px 6px -8px rgba(0, 0, 0, 0.3);
+
+      /* MISC */
+  --radius: 16px;
+  --transition: 0.3s ease;
+}
+
+body {
+	/* Colors intentions */
+  --bg: var(--gradient-funky-2);
+  --text: var(--purple-deep);
+  --text-light: var(--purple-true);
+  --primary: var(--pastel);
+  --screen-bg: var(--white);
+  --sheet-bg: var(--white);
+  --hover: var(--light-grey);
+  --line-color: var(--light-grey);
+}
+
