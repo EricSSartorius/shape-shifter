@@ -87,8 +87,7 @@ const Panel = styled(Card)`
 
   .panel-content {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    flex-direction: column-reverse;
     padding: var(--gap-small);
     margin-top: var(--gap);
 
@@ -105,6 +104,7 @@ const Panel = styled(Card)`
 
     .delete-button {
       color: var(--red);
+      align-self: flex-end;
     }
   }
 `
