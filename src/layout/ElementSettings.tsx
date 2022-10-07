@@ -41,16 +41,16 @@ export function ElementSettings() {
               <div className="panel-content">
                 <ul>
                   <li>
-                    <span>X:</span> {selectedElement?.translate[0]}
+                    <span>X:</span> {selectedElement?.translate[0].toFixed(2)}
                   </li>
                   <li>
-                    <span>Y:</span> {selectedElement?.translate[1]}
+                    <span>Y:</span> {selectedElement?.translate[1].toFixed(2)}
                   </li>
                   <li>
-                    <span>W:</span> {selectedElement?.width}
+                    <span>W:</span> {selectedElement?.width.toFixed(2)}
                   </li>
                   <li>
-                    <span>H:</span> {selectedElement?.height}
+                    <span>H:</span> {selectedElement?.height.toFixed(2)}
                   </li>
                 </ul>
 

@@ -1,4 +1,5 @@
 import { createContext, FC, useContext, useState } from "react"
+import { useLocalStorage } from "../hooks/useLocalStorage"
 
 // Global context for panels
 
@@ -6,15 +7,15 @@ export const initialPanelValues = {
   toggleLayoutPanel: () => {},
   toggleElementPanel: () => {},
   togglePanels: () => {},
-  isLayoutPanelShowing: true,
-  isElementPanelShowing: true,
+  isLayoutPanelShowing: false,
+  isElementPanelShowing: false,
 }
 
 export const PanelContext = createContext(initialPanelValues)
 
 export const PanelProvider: FC = ({ children }) => {
-  const [isLayoutPanelShowing, setIsLayoutPanelShowing] = useState(true)
-  const [isElementPanelShowing, setIsElementPanelShowing] = useState(true)
+  const [isLayoutPanelShowing, setIsLayoutPanelShowing] = useState(false)
+  const [isElementPanelShowing, setIsElementPanelShowing] = useState(false)
 
   // Hide/show settings
 
