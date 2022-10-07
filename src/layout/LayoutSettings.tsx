@@ -1,124 +1,117 @@
-import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import styled from "styled-components";
-import { useElement } from "../context/element";
-import { Icon } from "../components/Icon";
-import { useGlobal } from "../context";
-import { LAYOUTS } from "../constants";
-import { supabase } from "../supabaseClient";
-import { useRef } from "react";
-import { mutate } from "swr";
-import { Card } from "../components/Card";
-import { Account } from "./Account";
-import { useClickOutside } from "../hooks/useClickOutside";
-import { Portal } from "../components/Portal";
+import { useState } from "react"
+import { AnimatePresence, motion } from "framer-motion"
+import styled from "styled-components"
+import { useElement } from "../context/element"
+import { Icon } from "../components/Icon"
+import { useGlobal, usePanels } from "../context"
+import { ELEMENT_LIMIT, LAYOUTS, LAYOUT_LIMIT } from "../constants"
+import { supabase } from "../supabaseClient"
+import { useRef } from "react"
+import { mutate } from "swr"
+import { Card } from "../components/Card"
+import { Account } from "./Account"
+import { useClickOutside } from "../hooks/useClickOutside"
+import { Portal } from "../components/Portal"
 
 export function LayoutSettings() {
-  const {
-    session,
-    layouts,
-    error,
-    currentLayout,
-    areSettingsShowing,
-    setCurrentLayout,
-  } = useGlobal();
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [selectedLayoutName, setSelectedLayoutName] = useState<string>("");
-  const { setSelectedElement, setElements } = useElement();
+  const { session, layouts, error, currentLayout, setCurrentLayout } = useGlobal()
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [isEditing, setIsEditing] = useState(false)
+  const [selectedLayoutName, setSelectedLayoutName] = useState<string>("")
+  const { setSelectedElement, setElements } = useElement()
+  const { isLayoutPanelShowing } = usePanels()
 
   const changeLayout = (id: string | undefined) => {
-    setSelectedElement(null);
-    setCurrentLayout(id);
-  };
+    setSelectedElement(null)
+    setCurrentLayout(id)
+  }
 
   const changeLayoutName = (e) => {
-    setSelectedLayoutName(e.target.value);
-  };
+    setSelectedLayoutName(e.target.value)
+  }
 
   const addNewLayout = async () => {
     try {
       // Create a default name for the layout
-      const DEFAULT_NAME = "Unnamed Layout";
-      const defaultNameCount = layouts?.filter((layout) =>
-        layout.name.includes(DEFAULT_NAME)
-      )?.length;
-      const name =
-        defaultNameCount > 0
-          ? `${DEFAULT_NAME} ${defaultNameCount + 1}`
-          : DEFAULT_NAME;
+      const DEFAULT_NAME = "Unnamed Layout"
+      const defaultNameCount = layouts?.filter((layout) => layout.name.includes(DEFAULT_NAME))?.length
+      const name = defaultNameCount > 0 ? `${DEFAULT_NAME} ${defaultNameCount + 1}` : DEFAULT_NAME
 
       const { error: err } = await supabase
         .from(LAYOUTS)
         .insert({ name, elements: [], user_id: session.user.id })
-        .single();
+        .single()
 
-      if (err) throw err;
+      if (err) throw err
 
-      const { data } = await mutate(LAYOUTS);
-      changeLayout(data[0].id);
+      const { data } = await mutate(LAYOUTS)
+      changeLayout(data[0].id)
     } catch (e) {
-      console.log(e);
+      console.log(e)
     }
-  };
+  }
 
   const updateLayout = async () => {
     try {
       const { error: err } = await supabase
         .from(LAYOUTS)
         .update({ name: selectedLayoutName })
-        .eq("id", currentLayout?.id);
+        .eq("id", currentLayout?.id)
 
-      if (err) throw err;
+      if (err) throw err
 
-      setSelectedLayoutName("");
-      await mutate(LAYOUTS);
+      setSelectedLayoutName("")
+      await mutate(LAYOUTS)
     } catch (e) {
-      console.log(e);
+      console.log(e)
     }
-  };
+  }
 
   const removeLayout = async (id: number) => {
     try {
       if (id === currentLayout?.id) {
-        changeLayout(layouts?.[0]);
+        changeLayout(layouts?.[0])
       }
-      const { error: err } = await supabase.from(LAYOUTS).delete().eq("id", id);
+      const { error: err } = await supabase.from(LAYOUTS).delete().eq("id", id)
 
-      if (err) throw err;
+      if (err) throw err
 
-      const { data } = await mutate(LAYOUTS);
-      if (!data.length) {
-        setElements([]);
+      const { data } = await mutate(LAYOUTS)
+      if (!data?.length) {
+        setElements([])
       }
     } catch (e) {
-      console.log(e);
+      console.log(e)
     }
-  };
+  }
 
   const startEditing = () => {
     if (currentLayout) {
-      setIsEditing(true);
-      setSelectedLayoutName(currentLayout?.name);
+      setIsEditing(true)
+      setSelectedLayoutName(currentLayout?.name)
     }
-  };
+  }
 
   const stopEditing = async () => {
-    setIsEditing(false);
+    setIsEditing(false)
 
     if (selectedLayoutName !== currentLayout?.name && selectedLayoutName) {
-      await updateLayout();
+      await updateLayout()
     }
 
-    setSelectedLayoutName("");
-  };
+    setSelectedLayoutName("")
+  }
 
-  useClickOutside(inputRef, () => stopEditing());
+  useClickOutside(inputRef, () => stopEditing())
+
+  const layoutLimitReached = layouts?.length >= LAYOUT_LIMIT
+
+  const elementLimitReached = currentLayout?.elements.length >= ELEMENT_LIMIT
 
   return (
     <Portal>
       <AnimatePresence>
-        {areSettingsShowing && (
+        {isLayoutPanelShowing && (
           <Panel
             exit={{ opacity: 0, y: 200, x: -400 }}
             initial={{ opacity: 0, y: 200, x: -400 }}
@@ -141,7 +134,7 @@ export function LayoutSettings() {
                         onChange={changeLayoutName}
                         onKeyDown={(e) => {
                           if (e.key === "Enter") {
-                            stopEditing();
+                            stopEditing()
                           }
                         }}
                       />
@@ -158,7 +151,7 @@ export function LayoutSettings() {
                       </motion.h3>
                     )}
                   </AnimatePresence>
-                  <button onClick={addNewLayout}>
+                  <button onClick={addNewLayout} disabled={layoutLimitReached}>
                     <Icon name="library_add" />
                   </button>
                 </div>
@@ -166,9 +159,7 @@ export function LayoutSettings() {
                   {layouts?.map((layout) => (
                     <li key={layout.id}>
                       <h4
-                        className={`${
-                          layout.id === currentLayout?.id ? "active" : ""
-                        }`}
+                        className={`${layout.id === currentLayout?.id ? "active" : ""}`}
                         onClick={() => changeLayout(layout.id)}
                       >
                         {layout.name}
@@ -182,6 +173,16 @@ export function LayoutSettings() {
                     </li>
                   ))}
                 </ul>
+                {layoutLimitReached && (
+                  <p className="notice">
+                    You have reached the layout limit ({LAYOUT_LIMIT}) for this plan. Upgrade for more layouts.
+                  </p>
+                )}
+                {elementLimitReached && (
+                  <p className="notice">
+                    You have reached the element limit ({ELEMENT_LIMIT}) for this plan. Upgrade for more elements.
+                  </p>
+                )}
               </>
             )}
             <Account />
@@ -189,14 +190,14 @@ export function LayoutSettings() {
         )}
       </AnimatePresence>
     </Portal>
-  );
+  )
 }
 
 const Panel = styled(Card)`
   position: fixed;
-  top: var(--gap-large);
-  left: var(--gap-large);
-  bottom: var(--gap-large);
+  top: var(--gutter-width);
+  left: var(--gutter-width);
+  bottom: var(--gutter-width);
   width: calc(var(--panel-width) + 50px);
   display: flex;
   flex-direction: column;
@@ -235,6 +236,13 @@ const Panel = styled(Card)`
     flex: 2;
   }
 
+  .notice {
+    color: var(--grey);
+    font-size: var(--font-size-small);
+
+    margin-bottom: var(--gap);
+  }
+
   .buttons {
     flex-shrink: 0;
   }
@@ -271,4 +279,4 @@ const Panel = styled(Card)`
       margin-top: var(--gap-small);
     }
   }
-`;
+`

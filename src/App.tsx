@@ -1,7 +1,7 @@
-import { AnimatePresence } from "framer-motion"
 import styled from "styled-components"
 import { Logo } from "./components/Logo"
 import { Spinner } from "./components/Spinner"
+import { PanelButton } from "./components/PanelButton"
 import { useGlobal } from "./context"
 import Auth from "./layout/Auth"
 import { DeviceLayout } from "./layout/DeviceLayout"
@@ -15,17 +15,16 @@ function App() {
 
   return (
     <Main>
-      <AnimatePresence>
-        {!session ? (
-          <Auth />
-        ) : (
-          <>
-            <LayoutSettings />
-            <DeviceLayout />
-            <ElementSettings />
-          </>
-        )}
-      </AnimatePresence>
+      {!session ? (
+        <Auth />
+      ) : (
+        <>
+          <LayoutSettings />
+          <DeviceLayout />
+          <ElementSettings />
+          <PanelButton />
+        </>
+      )}
       <Logo />
     </Main>
   )
@@ -34,9 +33,8 @@ function App() {
 export default App
 
 const Main = styled.main`
-  max-width: 1290px;
   margin: 0 auto;
-  padding: var(--gap-large);
+  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -44,8 +42,18 @@ const Main = styled.main`
 
   .logo {
     position: absolute;
-    bottom: var(--gap-large);
-    right: var(--gap-large);
+    bottom: var(--gutter-width);
+    right: var(--gutter-width);
+  
     opacity: 0.2;
+    z-index: -1;
   }
+
+  @media screen and (max-width: 768px) {
+    .logo {
+      left: var(--gutter-width);
+      transform: scale(0.7);
+      top: 2px;
+      margin: 0 auto;
+    }
 `

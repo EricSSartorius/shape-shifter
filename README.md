@@ -19,7 +19,7 @@ This is a simple app used to add basic shapes to a phone-sized layout.
 - Rotate a rectangle
 - Show/Hide Menus
 
-__more features such as updated animations, pinch, and drag to create new element coming soon!__
+__more features such as updated device sizes, mobile-mode, and drag to create new element coming soon!__
 
 ### Developed with:
 - [Vite](https://vitejs.dev/)

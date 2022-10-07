@@ -1,35 +1,34 @@
-import { useEffect, useState } from "react";
-import { ChromePicker } from "react-color";
-import { AnimatePresence } from "framer-motion";
-import styled, { css } from "styled-components";
-import { Icon } from "../components/Icon";
-import { useElement } from "../context/element";
-import { Card } from "../components/Card";
-import { useGlobal } from "../context";
-import { Portal } from "../components/Portal";
+import { useEffect, useState } from "react"
+import { ChromePicker } from "react-color"
+import { AnimatePresence } from "framer-motion"
+import styled, { css } from "styled-components"
+import { Icon } from "../components/Icon"
+import { useElement } from "../context/element"
+import { Card } from "../components/Card"
+import { usePanels } from "../context"
+import { Portal } from "../components/Portal"
 
 export function ElementSettings() {
-  const { areSettingsShowing } = useGlobal();
-  const { selectedElement, updateElement, removeElement } = useElement();
-  const [color, setColor] = useState<string | undefined>(
-    selectedElement?.color
-  );
+  const { selectedElement, updateElement, removeElement } = useElement()
+  const { isElementPanelShowing } = usePanels()
+
+  const [color, setColor] = useState<string | undefined>(selectedElement?.color)
 
   const onChange = ({ hex }: { hex: string }) => {
     if (selectedElement) {
-      setColor(hex);
-      updateElement({ ...selectedElement, color: hex });
+      setColor(hex)
+      updateElement({ ...selectedElement, color: hex })
     }
-  };
+  }
 
   useEffect(() => {
-    setColor(selectedElement?.color);
-  }, [selectedElement?.id]);
+    setColor(selectedElement?.color)
+  }, [selectedElement?.id])
 
   return (
     <Portal>
       <AnimatePresence>
-        {areSettingsShowing && (
+        {isElementPanelShowing && (
           <Panel
             $isElementSelected={!!selectedElement}
             exit={{ opacity: 0, y: -200, x: 400 }}
@@ -37,13 +36,7 @@ export function ElementSettings() {
             animate={{ opacity: 1, y: 0, x: 0 }}
           >
             <>
-              <ChromePicker
-                width="100%"
-                triangle="hide"
-                color={color}
-                onChangeComplete={onChange}
-                disableAlpha
-              />
+              <ChromePicker width="100%" triangle="hide" color={color} onChangeComplete={onChange} disableAlpha />
 
               <div className="panel-content">
                 <ul>
@@ -61,10 +54,7 @@ export function ElementSettings() {
                   </li>
                 </ul>
 
-                <button
-                  className="delete-button"
-                  onClick={() => removeElement(selectedElement?.id)}
-                >
+                <button className="delete-button" onClick={() => removeElement(selectedElement?.id)}>
                   <Icon name="delete" />
                 </button>
               </div>
@@ -73,7 +63,7 @@ export function ElementSettings() {
         )}
       </AnimatePresence>
     </Portal>
-  );
+  )
 }
 
 const Panel = styled(Card)`
@@ -89,8 +79,8 @@ const Panel = styled(Card)`
     `};
 
   position: fixed;
-  top: var(--gap-large);
-  right: var(--gap-large);
+  top: var(--gutter-width);
+  right: var(--gutter-width);
   width: var(--panel-width);
   padding: var(--gap-small);
   opacity: 1;
@@ -117,4 +107,4 @@ const Panel = styled(Card)`
       color: var(--red);
     }
   }
-`;
+`

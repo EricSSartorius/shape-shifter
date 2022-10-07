@@ -1,41 +1,35 @@
-import styled from "styled-components";
-import { Icon } from "../components/Icon";
-import { useGlobal } from "../context";
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../constants";
-import { DynamicElement } from "../components/DynamicElement";
-import { useElement } from "../context/element";
-import { EmptyState } from "../components/EmptyState";
+import styled from "styled-components"
+import { Icon } from "../components/Icon"
+import { useGlobal, usePanels } from "../context"
+import { ELEMENT_LIMIT, SCREEN_HEIGHT, SCREEN_WIDTH } from "../constants"
+import { DynamicElement } from "../components/DynamicElement"
+import { useElement } from "../context/element"
+import { EmptyState } from "../components/EmptyState"
 
 export function DeviceLayout() {
-  const { toggleSettings, currentLayout } = useGlobal();
-  const { elements, setElements, setSelectedElement, addElement } =
-    useElement();
+  const { currentLayout } = useGlobal()
+  const { elements, setElements, setSelectedElement, addElement } = useElement()
+  const { togglePanels } = usePanels()
 
   const deselectElements = () => {
-    setSelectedElement(null);
-  };
+    setSelectedElement(null)
+  }
 
   return (
     <div>
       <Device>
         <Screen onClick={deselectElements}>
           {currentLayout && elements?.length > 0 ? (
-            elements.map((element) => (
-              <DynamicElement key={element.id} element={element} />
-            ))
+            elements.map((element) => <DynamicElement key={element.id} element={element} />)
           ) : (
             <EmptyState addElement={addElement} />
           )}
         </Screen>
         <div className="buttons">
-          <button className="device-button" onClick={toggleSettings}>
+          <button className="device-button" onClick={togglePanels}>
             <Icon name="layers" />
           </button>
-          <button
-            className="device-button"
-            disabled={elements.length >= 5}
-            onClick={addElement}
-          >
+          <button className="device-button" disabled={elements.length >= ELEMENT_LIMIT} onClick={addElement}>
             <Icon name="add_circle" />
           </button>
 
@@ -43,7 +37,7 @@ export function DeviceLayout() {
             className="device-button"
             disabled={elements.length <= 0}
             onClick={() => {
-              setElements([]);
+              setElements([])
             }}
           >
             <Icon name="delete_forever" />
@@ -51,7 +45,7 @@ export function DeviceLayout() {
         </div>
       </Device>
     </div>
-  );
+  )
 }
 
 const Device = styled.div`
@@ -80,20 +74,13 @@ const Device = styled.div`
       align-items: center;
       color: var(--white);
 
-      :nth-child(2) {
-        .icon {
-          font-size: var(--h3);
-        }
-        align-self: center;
+      .icon {
+        font-size: var(--h3);
       }
+      align-self: center;
 
       :hover {
         opacity: 0.8;
-      }
-
-      :disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
       }
     }
   }
@@ -111,7 +98,7 @@ const Device = styled.div`
     background: #333;
     border-radius: 10px;
   }
-`;
+`
 
 const Screen = styled.div`
   width: ${SCREEN_WIDTH}px;
@@ -119,4 +106,4 @@ const Screen = styled.div`
   background: var(--screen-bg);
   position: relative;
   box-shadow: var(--shadow-0);
-`;
+`

@@ -9,11 +9,12 @@ type IconName =
   | "logout"
   | "alert"
   | "add_circle"
+  | "category"
   | "library_add"
   | "layers"
   | "edit"
-  | "remove";
+  | "remove"
 
 export function Icon({ name }: { name: IconName }) {
-  return <span className="icon material-symbols-outlined">{name}</span>;
+  return <span className="icon material-symbols-outlined">{name}</span>
 }
