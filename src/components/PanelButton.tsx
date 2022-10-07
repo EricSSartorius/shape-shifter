@@ -21,6 +21,7 @@ export function PanelButton() {
 const PanelWrapper = styled(Card)`
   position: fixed;
   bottom: calc(var(--gap-large) * 4);
+  box-shadow: var(--shadow-2);
   right: 0;
   padding: var(--gap-small);
   border-radius: var(--radius) 0 0 var(--radius);
