@@ -1,6 +1,6 @@
 # Shape Shifter
 
-This is a simple app used to add basic shapes to a phone-sized layout.
+This is a simple app used to add basic shapes to a phone-sized layout. Just for fun.
 
 
 ### Features:
